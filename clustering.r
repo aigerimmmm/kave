@@ -50,3 +50,19 @@ points(Clust2$centers, col = 1:5, pch = 8)
 
 Clust21 <- kmeans(FnlDat[, c(3 : 4)], centers = 2)
 plot(FnlDat[, c(3 : 4)], col = Clust21$cluster)
+
+# developer's navigations data
+navigations <- read.csv(file = "/data/navigation.csv", header = TRUE)
+colnames(navigations)
+head(navigations)
+
+as.numeric(as.POSIXct(edits$duration[1]))
+
+hist(edits$numberchanges[edits$numberchanges<50],
+     main = "Number of changes - less than 50",
+     xlab = "Number of changes")
+
+
+hist(as.numeric(format(as.POSIXct(navigations$triggeredat,format="%H:%M:%S"),"%H")),
+     main = "Distribution of number of activity during a day",
+     xlab = "Hour of a day")
