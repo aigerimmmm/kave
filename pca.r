@@ -28,18 +28,6 @@ EdtDat <- ddply(editsU,
                                  as.numeric(format(strptime(x[, "durationT"], "%Y-%m-%d %H:%M:%S"), "%M")) / 60, na.rm = T)
                   return(c(EdtDur = EdtDur))
                 })
-DebDat <- ddply(debuggersU,
-                .(idesessionuuid, activewindow), function(x){
-                  DebDur = sum(as.numeric(format(strptime(x[, "durationT"], "%Y-%m-%d %H:%M:%S"), "%S")) +
-                                 as.numeric(format(strptime(x[, "durationT"], "%Y-%m-%d %H:%M:%S"), "%M")) / 60, na.rm = T)
-                  return(c(DebDur = DebDur))
-                })
-BilDat <- ddply(buildsU,
-                .(idesessionuuid, activewindow), function(x){
-                  BilDur = sum(as.numeric(format(strptime(x[, "durationT"], "%Y-%m-%d %H:%M:%S"), "%S")) +
-                                 as.numeric(format(strptime(x[, "durationT"], "%Y-%m-%d %H:%M:%S"), "%M")) / 60, na.rm = T)
-                  return(c(BilDur = BilDur))
-                })
 
 
 FnlDat <- merge(ActDat, EdtDat,
