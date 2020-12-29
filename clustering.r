@@ -52,7 +52,7 @@ Clust21 <- kmeans(FnlDat[, c(3 : 4)], centers = 2)
 plot(FnlDat[, c(3 : 4)], col = Clust21$cluster)
 
 # developer's navigations data
-navigations <- read.csv(file = "/data/navigation.csv", header = TRUE)
+navigations <- read.csv(file = "/data/navigations.csv", header = TRUE)
 colnames(navigations)
 head(navigations)
 
