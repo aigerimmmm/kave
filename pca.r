@@ -42,26 +42,6 @@ FnlDat <- merge(FnlDat, users[, c("idesessionuuid", "programmingGeneral",
                 by = c("idesessionuuid"))
 
 
-
-# Clustering
-Clust2 <- kmeans(FnlDat[, -c(1 : 2)], centers = 2)
-plot(FnlDat[, -c(1 : 2)], col = Clust2$cluster)
-points(Clust2$centers, col = 1:5, pch = 8)
-
-names(Clust2)
-
-
-Clust3 <- kmeans(FnlDat[, -c(1 : 2)], centers = 3)
-plot(FnlDat[, -c(1 : 2)], col = Clust3$cluster)
-points(Clust3$centers, col = 1:5, pch = 8)
-
-
-Clust4 <- kmeans(FnlDat[, -c(1 : 2)], centers = 4)
-plot(FnlDat[, -c(1 : 2)], col = Clust4$cluster)
-points(Clust4$centers, col = 1:5, pch = 8)
-
-
-
 # PCA
 PCA1 <- prcomp(FnlDat[, -c(1 : 2)], center = T, scale. = T)
 PCA1
