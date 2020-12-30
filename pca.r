@@ -1,11 +1,11 @@
-activities <- read.csv(file = "/Users/aika/Desktop/activities.csv", header = TRUE)
-users <- read.csv(file = "/Users/aika/Desktop/users.csv", header = TRUE)
-edits <- read.csv(file = "/Users/aika/Desktop/edits.csv", header = TRUE)
-navigations <- read.csv(file = "/Users/aika/Desktop/navigation.csv", header = TRUE)
-debuggers <- read.csv(file = "/Users/aika/Desktop/debugger.csv", header = TRUE)
-builds <- read.csv(file = "/Users/aika/Desktop/build.csv", header = TRUE)
+activities <- read.csv(file = "/data/activities.csv", header = TRUE)
+users <- read.csv(file = "/data/users.csv", header = TRUE)
+edits <- read.csv(file = "/data/edits.csv", header = TRUE)
+navigations <- read.csv(file = "/data/navigation.csv", header = TRUE)
+debuggers <- read.csv(file = "/data/debugger.csv", header = TRUE)
+builds <- read.csv(file = "/data/build.csv", header = TRUE)
 
-
+# activities that in users file
 activitiesU <- activities[activities$idesessionuuid %in% users$idesessionuuid, ]
 editsU <- edits[edits$idesessionuuid %in% users$idesessionuuid, ]
 debuggersU <- debuggers[debuggers$idesessionuuid %in% users$idesessionuuid, ]
@@ -16,12 +16,14 @@ editsU$durationT = as.POSIXct(editsU$duration, format="%H:%M:%S")
 debuggersU$durationT = as.POSIXct(debuggersU$duration, format="%H:%M:%S")
 buildsU$durationT = as.POSIXct(buildsU$duration, format="%H:%M:%S")
 
+# add activity duration to activities that in users file
 ActDat <- ddply(activitiesU,
                 .(idesessionuuid, activewindow), function(x){
                   ActDur = sum(as.numeric(format(strptime(x[, "durationT"], "%Y-%m-%d %H:%M:%S"), "%S")) +
                                  as.numeric(format(strptime(x[, "durationT"], "%Y-%m-%d %H:%M:%S"), "%M")) / 60, na.rm = T)
                   return(c(ActDur = ActDur))
                 })
+# add edit duration to edits that in users file
 EdtDat <- ddply(editsU,
                 .(idesessionuuid, activewindow), function(x){
                   EdtDur = sum(as.numeric(format(strptime(x[, "durationT"], "%Y-%m-%d %H:%M:%S"), "%S")) +
@@ -29,13 +31,11 @@ EdtDat <- ddply(editsU,
                   return(c(EdtDur = EdtDur))
                 })
 
-
+# merge activity duration and edit duration that in users file
 FnlDat <- merge(ActDat, EdtDat,
                 by = c("idesessionuuid", "activewindow"))
-dim(FnlDat)
-head(FnlDat)
 
-
+# merged activity duration and edit duration that in users file merge with users file
 FnlDat <- merge(FnlDat, users[, c("idesessionuuid", "programmingGeneral",
                                   "education", "position", "codeReviews",
                                   "programmingCSharp")],
